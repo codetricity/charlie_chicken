@@ -6,6 +6,10 @@ Basic sprite animation on Flutter with Flame.
 
 Uses Flame joystick.
 
+Add custom maps with Tiled and load into game with `flame_tiled`.
+
+![custom map](assets/docs/custom_map.gif)
+
 ## Charlie Chicken Tutorials
 
 * [Tutorial Playlist](https://youtube.com/playlist?list=PLxvyAnoL-vu4H9YM8on7AKNRMOsTOdIle)
