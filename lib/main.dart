@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/image_composition.dart';
 import 'package:flame/palette.dart';
@@ -6,6 +7,9 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart' hide Image;
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Flame.device.fullScreen();
+  Flame.device.setLandscape();
   print('1. load the GameWidget with runApp');
   runApp(GameWidget(game: ChickenGame()));
 }
@@ -41,14 +45,14 @@ class ChickenGame extends FlameGame with HasDraggables {
 
     final knobPaint = BasicPalette.blue.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
+
+    camera.viewport = FixedResolutionViewport(Vector2(1280, mapHeight));
     joystick = JoystickComponent(
       knob: CircleComponent(radius: 30, paint: knobPaint),
       background: CircleComponent(radius: 100, paint: backgroundPaint),
       margin: const EdgeInsets.only(left: 40, bottom: 40),
     );
     add(joystick);
-
-    camera.viewport = FixedResolutionViewport(Vector2(1280, mapHeight));
   }
 
   @override
