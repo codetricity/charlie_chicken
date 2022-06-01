@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/image_composition.dart';
 import 'package:flame/palette.dart';
@@ -6,6 +7,10 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart' hide Image;
 
 void main() {
+  print('setup game orientation');
+  WidgetsFlutterBinding.ensureInitialized();
+  Flame.device.fullScreen();
+  Flame.device.setLandscape();
   print('1. load the GameWidget with runApp');
   runApp(GameWidget(game: ChickenGame()));
 }
@@ -25,10 +30,9 @@ class ChickenGame extends FlameGame with HasDraggables {
 
     var homeMap = await TiledComponent.load('level_1.tmx', Vector2(16, 16));
     add(homeMap);
-    // background = SpriteComponent()
-    //   ..sprite = await loadSprite('background.png')
-    //   ..size = size;
-    // add(background);
+    double mapHeight = 16.0 * homeMap.tileMap.map.height;
+
+    camera.viewport = FixedResolutionViewport(Vector2(1280, mapHeight));
     Image chickenImage = await images.load('chicken.png');
     var chickenAnimation = SpriteAnimation.fromFrameData(
         chickenImage,
