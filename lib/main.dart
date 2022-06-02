@@ -5,6 +5,9 @@ import 'package:flame/image_composition.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart' hide Image;
+import 'package:tiled/tiled.dart';
+
+import 'actors/fruit.dart';
 
 void main() {
   print('setup game orientation');
@@ -30,12 +33,20 @@ class ChickenGame extends FlameGame with HasDraggables {
 
     print('3. load map');
     var homeMap = await TiledComponent.load('level_1.tmx', Vector2(16, 16));
-    print('4. add map to game');
+    print('4. add non-interactive map to game');
     add(homeMap);
     double mapHeight = 16.0 * homeMap.tileMap.map.height;
 
+    // get fruit
+    List<TiledObject> fruitObjects =
+        homeMap.tileMap.getLayer<ObjectGroup>('Fruit')!.objects;
+
+    for (var fruit in fruitObjects) {
+      add(Fruit(fruit));
+    }
+
     camera.viewport = FixedResolutionViewport(Vector2(1280, mapHeight));
-    print('5. load charlie chicken image');
+    print('load charlie chicken image');
     Image chickenImage = await images.load('chicken.png');
     var chickenAnimation = SpriteAnimation.fromFrameData(
         chickenImage,
