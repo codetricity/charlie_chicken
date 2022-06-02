@@ -1,3 +1,4 @@
+import 'package:charlie_chicken/actors/charlie.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -18,13 +19,11 @@ void main() {
   runApp(GameWidget(game: ChickenGame()));
 }
 
-class ChickenGame extends FlameGame with HasDraggables {
-  double chickenScaleFactor = 3.0;
-
-  late SpriteAnimationComponent chicken;
+class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
   late final JoystickComponent joystick;
   bool chickenFlipped = false;
   late SpriteComponent background;
+  late Charlie charlie;
 
   @override
   Future<void> onLoad() async {
@@ -46,17 +45,10 @@ class ChickenGame extends FlameGame with HasDraggables {
     }
 
     camera.viewport = FixedResolutionViewport(Vector2(1280, mapHeight));
-    print('load charlie chicken image');
-    Image chickenImage = await images.load('chicken.png');
-    var chickenAnimation = SpriteAnimation.fromFrameData(
-        chickenImage,
-        SpriteAnimationData.sequenced(
-            amount: 14, stepTime: 0.1, textureSize: Vector2(32, 34)));
-    chicken = SpriteAnimationComponent()
-      ..animation = chickenAnimation
-      ..size = Vector2(32, 34) * chickenScaleFactor
-      ..position = Vector2(300, 100);
-    add(chicken);
+
+    charlie = Charlie();
+
+    add(charlie);
 
     final knobPaint = BasicPalette.blue.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
@@ -79,23 +71,23 @@ class ChickenGame extends FlameGame with HasDraggables {
     double chickenVectorY = (joystick.relativeDelta * 300 * dt)[1];
 
     // chicken is moving horizontally
-    if ((moveLeft && chicken.x > 0) || (moveRight && chicken.x < size[0])) {
-      chicken.position.add(Vector2(chickenVectorX, 0));
+    if ((moveLeft && charlie.x > 0) || (moveRight && charlie.x < size[0])) {
+      charlie.position.add(Vector2(chickenVectorX, 0));
     }
     // chicken is moving vertically
-    if ((moveUp && chicken.y > 0) ||
-        (moveDown && chicken.y < size[1] - chicken.height)) {
-      chicken.position.add(Vector2(0, chickenVectorY));
+    if ((moveUp && charlie.y > 0) ||
+        (moveDown && charlie.y < size[1] - charlie.height)) {
+      charlie.position.add(Vector2(0, chickenVectorY));
     }
 
     if (joystick.relativeDelta[0] < 0 && chickenFlipped) {
       chickenFlipped = false;
-      chicken.flipHorizontallyAroundCenter();
+      charlie.flipHorizontallyAroundCenter();
     }
 
     if (joystick.relativeDelta[0] > 0 && !chickenFlipped) {
       chickenFlipped = true;
-      chicken.flipHorizontallyAroundCenter();
+      charlie.flipHorizontallyAroundCenter();
     }
   }
 }

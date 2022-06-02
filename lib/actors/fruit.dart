@@ -1,11 +1,12 @@
 import 'dart:ui';
 
+import 'package:charlie_chicken/actors/charlie.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/image_composition.dart';
 import 'package:tiled/tiled.dart';
 
-class Fruit extends SpriteComponent with HasGameRef {
+class Fruit extends SpriteComponent with HasGameRef, CollisionCallbacks {
   final TiledObject fruit;
   Fruit(this.fruit);
   @override
@@ -23,5 +24,14 @@ class Fruit extends SpriteComponent with HasGameRef {
           anchor: Anchor.center,
           position: size / 2),
     );
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Charlie) {
+      removeFromParent();
+    }
+
+    super.onCollision(intersectionPoints, other);
   }
 }
