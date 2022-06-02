@@ -1,3 +1,5 @@
+import 'package:charlie_chicken/actors/charlie.dart';
+import 'package:charlie_chicken/actors/fruit.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -5,6 +7,7 @@ import 'package:flame/image_composition.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart' hide Image;
+import 'package:tiled/tiled.dart';
 
 void main() {
   print('setup game orientation');
@@ -15,10 +18,10 @@ void main() {
   runApp(GameWidget(game: ChickenGame()));
 }
 
-class ChickenGame extends FlameGame with HasDraggables {
+class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
   double chickenScaleFactor = 3.0;
 
-  late SpriteAnimationComponent chicken;
+  late Charlie chicken;
   late final JoystickComponent joystick;
   bool chickenFlipped = false;
   late SpriteComponent background;
@@ -34,6 +37,13 @@ class ChickenGame extends FlameGame with HasDraggables {
     add(homeMap);
     double mapHeight = 16.0 * homeMap.tileMap.map.height;
 
+    // get fruit
+    List<TiledObject> fruitObjects =
+        homeMap.tileMap.getLayer<ObjectGroup>('Fruit')!.objects;
+
+    for (var fruit in fruitObjects) {
+      add(Fruit(fruit));
+    }
     camera.viewport = FixedResolutionViewport(Vector2(1280, mapHeight));
     print('5. load charlie chicken image');
     Image chickenImage = await images.load('chicken.png');
@@ -41,7 +51,7 @@ class ChickenGame extends FlameGame with HasDraggables {
         chickenImage,
         SpriteAnimationData.sequenced(
             amount: 14, stepTime: 0.1, textureSize: Vector2(32, 34)));
-    chicken = SpriteAnimationComponent()
+    chicken = Charlie()
       ..animation = chickenAnimation
       ..size = Vector2(32, 34) * chickenScaleFactor
       ..position = Vector2(300, 100);
