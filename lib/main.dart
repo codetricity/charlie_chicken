@@ -1,5 +1,6 @@
 import 'package:charlie_chicken/actors/charlie.dart';
 import 'package:charlie_chicken/actors/fruit.dart';
+import 'package:charlie_chicken/world/obstacle.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -43,6 +44,12 @@ class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
 
     for (var fruit in fruitObjects) {
       add(Fruit(fruit));
+    }
+
+    List<TiledObject> obstacles =
+        homeMap.tileMap.getLayer<ObjectGroup>('Obstacles')!.objects;
+    for (var obstacle in obstacles) {
+      add(Obstacle(obstacle));
     }
     camera.viewport = FixedResolutionViewport(Vector2(1280, mapHeight));
     print('5. load charlie chicken image');
