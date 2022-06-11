@@ -1,5 +1,6 @@
 import 'package:charlie_chicken/actors/charlie.dart';
 import 'package:charlie_chicken/actors/fruit.dart';
+import 'package:charlie_chicken/world/obstacle.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -23,7 +24,6 @@ class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
 
   late Charlie chicken;
   late final JoystickComponent joystick;
-  bool chickenFlipped = false;
   late SpriteComponent background;
 
   @override
@@ -43,6 +43,12 @@ class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
 
     for (var fruit in fruitObjects) {
       add(Fruit(fruit));
+    }
+
+    List<TiledObject> obstacles =
+        homeMap.tileMap.getLayer<ObjectGroup>('Obstacles')!.objects;
+    for (var obstacle in obstacles) {
+      add(Obstacle(obstacle));
     }
     camera.viewport = FixedResolutionViewport(Vector2(1280, mapHeight));
     print('5. load charlie chicken image');
@@ -65,36 +71,5 @@ class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
       margin: const EdgeInsets.only(left: 40, bottom: 40),
     );
     add(joystick);
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    bool moveLeft = joystick.relativeDelta[0] < 0;
-    bool moveRight = joystick.relativeDelta[0] > 0;
-    bool moveUp = joystick.relativeDelta[1] < 0;
-    bool moveDown = joystick.relativeDelta[1] > 0;
-    double chickenVectorX = (joystick.relativeDelta * 300 * dt)[0];
-    double chickenVectorY = (joystick.relativeDelta * 300 * dt)[1];
-
-    // chicken is moving horizontally
-    if ((moveLeft && chicken.x > 0) || (moveRight && chicken.x < size[0])) {
-      chicken.position.add(Vector2(chickenVectorX, 0));
-    }
-    // chicken is moving vertically
-    if ((moveUp && chicken.y > 0) ||
-        (moveDown && chicken.y < size[1] - chicken.height)) {
-      chicken.position.add(Vector2(0, chickenVectorY));
-    }
-
-    if (joystick.relativeDelta[0] < 0 && chickenFlipped) {
-      chickenFlipped = false;
-      chicken.flipHorizontallyAroundCenter();
-    }
-
-    if (joystick.relativeDelta[0] > 0 && !chickenFlipped) {
-      chickenFlipped = true;
-      chicken.flipHorizontallyAroundCenter();
-    }
   }
 }
