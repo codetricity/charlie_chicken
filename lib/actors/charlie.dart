@@ -23,11 +23,11 @@ class Charlie extends SpriteAnimationComponent
     double chickenVectorY = (gameRef.joystick.relativeDelta * 300 * dt)[1];
 
     // chicken is moving horizontally
-    if ((moveLeft && x > 0) || (moveRight && x < size[0])) {
+    if ((moveLeft && x > 0) || (moveRight && x < gameRef.size[0])) {
       position.add(Vector2(chickenVectorX, 0));
     }
     // chicken is moving vertically
-    if ((moveUp && y > 0) || (moveDown && y < size[1] - height)) {
+    if ((moveUp && y > 0) || (moveDown && y < gameRef.size[1] - height)) {
       position.add(Vector2(0, chickenVectorY));
     }
 
