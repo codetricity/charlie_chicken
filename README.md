@@ -37,3 +37,7 @@ Collision and Removal
 
 * Flame 1.2
 * Flutter 3.0.2
+
+## Development Notes
+
+![overlay rebuild](assets/docs/overlay_system.png)
