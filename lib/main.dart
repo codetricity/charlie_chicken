@@ -26,8 +26,9 @@ void main() {
         body: GameWidget(
           overlayBuilderMap: {
             'ScoreDashboard': (BuildContext context, ChickenGame game) =>
-                const ScoreDashboard()
+                ScoreDashboard(game: game)
           },
+          initialActiveOverlays: const ['ScoreDashboard'],
           game: ChickenGame(),
         ),
       ),
@@ -36,11 +37,10 @@ void main() {
 }
 
 class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
-  double chickenScaleFactor = 3.0;
-
   late Charlie chicken;
   late final JoystickComponent joystick;
-  late SpriteComponent background;
+  // late SpriteComponent background;
+  int charlieEnergy = 0;
 
   @override
   Future<void> onLoad() async {
@@ -67,16 +67,9 @@ class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
       add(Obstacle(obstacle));
     }
     camera.viewport = FixedResolutionViewport(Vector2(1280, mapHeight));
-    print('5. load charlie chicken image');
-    Image chickenImage = await images.load('chicken.png');
-    var chickenAnimation = SpriteAnimation.fromFrameData(
-        chickenImage,
-        SpriteAnimationData.sequenced(
-            amount: 14, stepTime: 0.1, textureSize: Vector2(32, 34)));
-    chicken = Charlie()
-      ..animation = chickenAnimation
-      ..size = Vector2(32, 34) * chickenScaleFactor
-      ..position = Vector2(300, 100);
+
+    chicken = Charlie();
+
     add(chicken);
 
     add(joystick = GameJoystick());

@@ -1,19 +1,31 @@
 import 'package:charlie_chicken/main.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/image_composition.dart';
 
 import '../world/obstacle.dart';
 
 class Charlie extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<ChickenGame> {
+  final double chickenScaleFactor = 3.0;
+
   bool chickenFlipped = false;
   bool collided = false;
   JoystickDirection collidedDirection = JoystickDirection.idle;
 
   Future<void> onLoad() async {
     await super.onLoad();
+    print('5. load charlie chicken image');
+    Image chickenImage = await gameRef.images.load('chicken.png');
+    var chickenAnimation = SpriteAnimation.fromFrameData(
+        chickenImage,
+        SpriteAnimationData.sequenced(
+            amount: 14, stepTime: 0.1, textureSize: Vector2(32, 34)));
     add(RectangleHitbox());
     debugMode = true;
+    animation = chickenAnimation;
+    size = Vector2(32, 34) * chickenScaleFactor;
+    position = Vector2(300, 100);
   }
 
   @override
