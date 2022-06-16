@@ -6,8 +6,6 @@ import 'package:charlie_chicken/world/obstacle.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
-import 'package:flame/image_composition.dart';
-import 'package:flame/palette.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:tiled/tiled.dart';
@@ -48,22 +46,22 @@ class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
     print('2. load the assets for the game');
 
     print('3. load map');
-    var homeMap = await TiledComponent.load('level_1.tmx', Vector2(16, 16));
+    final homeMap = await TiledComponent.load('level_1.tmx', Vector2(16, 16));
     print('4. add map to game');
     add(homeMap);
-    double mapHeight = 16.0 * homeMap.tileMap.map.height;
+    final double mapHeight = 16.0 * homeMap.tileMap.map.height;
 
     // get fruit
-    List<TiledObject> fruitObjects =
+    final List<TiledObject> fruitObjects =
         homeMap.tileMap.getLayer<ObjectGroup>('Fruit')!.objects;
 
-    for (var fruit in fruitObjects) {
+    for (final fruit in fruitObjects) {
       add(Fruit(fruit));
     }
 
-    List<TiledObject> obstacles =
+    final List<TiledObject> obstacles =
         homeMap.tileMap.getLayer<ObjectGroup>('Obstacles')!.objects;
-    for (var obstacle in obstacles) {
+    for (final obstacle in obstacles) {
       add(Obstacle(obstacle));
     }
     camera.viewport = FixedResolutionViewport(Vector2(1280, mapHeight));

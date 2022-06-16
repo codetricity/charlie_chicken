@@ -18,10 +18,13 @@ class Fruit extends SpriteComponent
     size = Vector2.all(96);
     position = Vector2(fruit.x, fruit.y);
 
-    add(RectangleHitbox(
+    add(
+      RectangleHitbox(
         size: Vector2(fruit.width, fruit.height),
         anchor: Anchor.center,
-        position: size / 2));
+        position: size / 2,
+      ),
+    );
 
     debugMode = true;
   }
