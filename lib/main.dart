@@ -1,6 +1,5 @@
 import 'package:charlie_chicken/actors/charlie.dart';
 import 'package:charlie_chicken/actors/fruit.dart';
-import 'package:charlie_chicken/world/dashboard/score_dashboard.dart';
 import 'package:charlie_chicken/world/game_controls/game_joystick.dart';
 import 'package:charlie_chicken/world/obstacle.dart';
 import 'package:flame/components.dart';
@@ -16,20 +15,9 @@ void main() {
   Flame.device.fullScreen();
   Flame.device.setLandscape();
   print('1. load the GameWidget with runApp');
-  // wrap with MaterialApp and Scaffold for Flutter
-  // widget system on score overlay
   runApp(
-    MaterialApp(
-      home: Scaffold(
-        body: GameWidget(
-          overlayBuilderMap: {
-            'ScoreDashboard': (BuildContext context, ChickenGame game) =>
-                ScoreDashboard(game: game)
-          },
-          initialActiveOverlays: const ['ScoreDashboard'],
-          game: ChickenGame(),
-        ),
-      ),
+    GameWidget(
+      game: ChickenGame(),
     ),
   );
 }
@@ -71,6 +59,5 @@ class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
     add(chicken);
 
     add(joystick = GameJoystick());
-    overlays.add('ScoreDashboard');
   }
 }
