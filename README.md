@@ -41,3 +41,5 @@ Collision and Removal
 ## Development Notes
 
 ![overlay rebuild](assets/docs/overlay_system.png)
+
+![experimental camera](assets/docs/camera.png)
