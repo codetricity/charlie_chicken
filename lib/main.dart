@@ -1,5 +1,6 @@
 import 'package:charlie_chicken/actors/charlie.dart';
 import 'package:charlie_chicken/actors/fruit.dart';
+import 'package:charlie_chicken/world/dashboard/score.dart';
 import 'package:charlie_chicken/world/game_controls/game_joystick.dart';
 import 'package:charlie_chicken/world/obstacle.dart';
 import 'package:flame/components.dart';
@@ -25,7 +26,6 @@ void main() {
 class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
   late Charlie chicken;
   late final JoystickComponent joystick;
-  // late SpriteComponent background;
   int charlieEnergy = 0;
 
   @override
@@ -59,5 +59,6 @@ class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
     add(chicken);
 
     add(joystick = GameJoystick());
+    add(Score());
   }
 }
