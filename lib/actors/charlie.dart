@@ -1,8 +1,7 @@
 import 'package:charlie_chicken/main.dart';
+import 'package:charlie_chicken/world/obstacle.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-
-import '../world/obstacle.dart';
 
 class Charlie extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<ChickenGame> {
@@ -10,6 +9,7 @@ class Charlie extends SpriteAnimationComponent
   bool collided = false;
   JoystickDirection collidedDirection = JoystickDirection.idle;
 
+  @override
   Future<void> onLoad() async {
     await super.onLoad();
     add(RectangleHitbox());
@@ -19,12 +19,15 @@ class Charlie extends SpriteAnimationComponent
   @override
   void update(double dt) {
     super.update(dt);
-    bool moveLeft = gameRef.joystick.direction == JoystickDirection.left;
-    bool moveRight = gameRef.joystick.direction == JoystickDirection.right;
-    bool moveUp = gameRef.joystick.direction == JoystickDirection.up;
-    bool moveDown = gameRef.joystick.direction == JoystickDirection.down;
-    double chickenVectorX = (gameRef.joystick.relativeDelta * 300 * dt)[0];
-    double chickenVectorY = (gameRef.joystick.relativeDelta * 300 * dt)[1];
+    final bool moveLeft = gameRef.joystick.direction == JoystickDirection.left;
+    final bool moveRight =
+        gameRef.joystick.direction == JoystickDirection.right;
+    final bool moveUp = gameRef.joystick.direction == JoystickDirection.up;
+    final bool moveDown = gameRef.joystick.direction == JoystickDirection.down;
+    final double chickenVectorX =
+        (gameRef.joystick.relativeDelta * 300 * dt)[0];
+    final double chickenVectorY =
+        (gameRef.joystick.relativeDelta * 300 * dt)[1];
 
     // chicken is moving left
     if (moveLeft && x > 0) {
