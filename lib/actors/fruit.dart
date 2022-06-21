@@ -1,9 +1,11 @@
 import 'package:charlie_chicken/actors/charlie.dart';
+import 'package:charlie_chicken/main.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:tiled/tiled.dart';
 
-class Fruit extends SpriteComponent with HasGameRef, CollisionCallbacks {
+class Fruit extends SpriteComponent
+    with HasGameRef<ChickenGame>, CollisionCallbacks {
   final TiledObject fruit;
 
   Fruit(this.fruit);
@@ -24,7 +26,7 @@ class Fruit extends SpriteComponent with HasGameRef, CollisionCallbacks {
       ),
     );
 
-    debugMode = true;
+    // debugMode = true;
   }
 
   @override
@@ -32,6 +34,7 @@ class Fruit extends SpriteComponent with HasGameRef, CollisionCallbacks {
     super.onCollision(intersectionPoints, other);
     if (other is Charlie) {
       removeFromParent();
+      gameRef.charlieEnergy++;
     }
   }
 }
