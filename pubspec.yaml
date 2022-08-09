@@ -54,6 +54,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/world/
+    - assets/images/menu/
     - assets/tiles/
   #   - images/a_dot_ham.jpeg
 

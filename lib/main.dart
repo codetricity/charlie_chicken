@@ -78,5 +78,12 @@ class ChickenGame extends FlameGame with HasDraggables, HasCollisionDetection {
     );
     add(joystick);
     add(Score());
+    add(
+      SpriteComponent(
+        sprite: await loadSprite('menu/trophy.png'),
+        size: Vector2.all(100),
+        position: size - Vector2.all(120),
+      ),
+    );
   }
 }
