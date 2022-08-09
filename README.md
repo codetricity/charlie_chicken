@@ -28,6 +28,12 @@ Collision and Removal
 * [9. Collision Layer in Tiled Map Editor for Flame Games](https://youtu.be/LXfAiI1EMxw)
 * 10. Flame Sprite Collision and Removal
 
+## Additional Techniques
+
+With additional sprites for buttons.
+
+![screenshot with button](assets/docs/charlie_screenshot.png)
+
 ## Credits
 
 * background - [Pixel Adventure by artist Pixel Frog](https://pixelfrog-assets.itch.io/pixel-adventure-1)
